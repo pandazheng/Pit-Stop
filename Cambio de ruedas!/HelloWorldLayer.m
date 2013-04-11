@@ -12,7 +12,7 @@
 #import "CDAudioManager.h"
 
 
-int cronoStatus = 0;   
+int cronoStatus = 0;
 int minutesElapsed = 0;
 float timeElapsed = 0;
 
@@ -42,19 +42,20 @@ float timeElapsed = 0;
         self.winSize = [CCDirector sharedDirector].winSize;
         
         self.capa1 = [CCLayer node];
-        [self addChild:self.capa1];
+        [self addChild:self.capa1 z:0];
         self.capa2 = [CCLayer node];
-        [self addChild:self.capa2];
+        [self addChild:self.capa2 z:1];
         self.capa3 = [CCLayer node];
-        [self addChild:self.capa3];
-
+        [self addChild:self.capa3 z:3];
+        
         
         [self construirFondo];
         [self construirRueda];
         [self contruirTaladro];
         
         [self contruirCronoGeneral];
-    
+        [self contruirCronoToques];
+        
         _tiempoPulsando = 0;
         
 	}
@@ -69,7 +70,7 @@ float timeElapsed = 0;
 
 -(void)construirRueda
 {
- 
+    
     [self.rueda stopAllActions];
     
     self.rueda = [CCSprite spriteWithFile:@"wheel.png"];
@@ -125,7 +126,7 @@ float timeElapsed = 0;
     [self.capa3 addChild:self.timeSeconds];
     
     [self construirTimer];
-
+    
     
 }
 
@@ -177,6 +178,19 @@ float timeElapsed = 0;
     }
 }
 
+-(void)contruirCronoToques
+{
+    self.cuentaAtrasSegundos = [CCLabelTTF labelWithString:@"" fontName:@"Marker Felt" fontSize:25];
+    self.cuentaAtrasSegundos.position = ccp(self.winSize.width /2-150 , self.winSize.height/2 +140 );
+    
+    self.cuentaAtrasMilisegundos = [CCLabelTTF labelWithString:@"" fontName:@"Marker Felt" fontSize:25];
+    self.cuentaAtrasMilisegundos.position = ccp( self.winSize.width /2-150 , self.winSize.height/2 +100);
+    
+    [self.capa3 addChild:self.cuentaAtrasSegundos z:4];
+    [self.capa3 addChild:self.cuentaAtrasMilisegundos z:5];
+    
+}
+
 -(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch * touch = [touches anyObject];
@@ -187,10 +201,12 @@ float timeElapsed = 0;
     
     
     if(CGRectContainsPoint(myRect, touchLocationGl)) {
-
+        
         NSLog(@"tocas la tuerca");
         self.tiempoDesatornillando = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(contadorTiempoDesatornillando) userInfo:nil repeats:YES];
-
+        self.cuentaAtras = 30;
+        [self.cuentaAtrasMilisegundos setString:[NSString stringWithFormat:@""]];
+        
         id rotate1 = [CCRotateTo actionWithDuration:3.5 angle:80000.];
         id action = [CCRepeatForever actionWithAction:rotate1];
         [_tuerca runAction:action];
@@ -214,71 +230,19 @@ float timeElapsed = 0;
 
 -(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-        if (_tiempoPulsando == 29 || _tiempoPulsando == 30 || _tiempoPulsando == 31) {
-
-        NSLog(@"acertaste");
-
-            CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
-            
-            if ([currentSound isPlaying]) {
-                [currentSound load:@"atornillar.wav"];
-                currentSound.backgroundMusic = NO;
-                [currentSound stop];
-            }
-            
-            [self.tiempoDesatornillando invalidate];
-            [self.tuerca stopAllActions];
-            
-            [self quitarTuerca];
-            [self quitarTaladro];
-    }
-    else if (_tiempoPulsando>= 32){
-        
-        NSLog( @"te pasate");
-        
-        _tiempoPulsando = 0;
-        
-        CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
-        
-        if ([currentSound isPlaying]) {
-            [currentSound load:@"atornillar.wav"];
-            currentSound.backgroundMusic = NO;
-            [currentSound stop];
-        }
-        [self.tiempoDesatornillando invalidate];
-        
-        [self quitarTaladro];
-        [self.tuerca stopAllActions];
-        [self moverTuercaPorEquibocarse];
-
-        
-    }else if (_tiempoPulsando <= 28){
-        
-        NSLog(@"te quedaste corto");
-        
-        _tiempoPulsando = 0;
-
-        CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
-        
-        if ([currentSound isPlaying]) {
-            [currentSound load:@"atornillar.wav"];
-            currentSound.backgroundMusic = NO;
-            [currentSound stop];
-        }
-        [self.tiempoDesatornillando invalidate];
-        
-        [self quitarTaladro];
-        [self.tuerca stopAllActions];
-        [self moverTuercaPorEquibocarse];
-
-    }
-
     
-}
-
--(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
+    UITouch * touch = [touches anyObject];
+    CGPoint touchLocation = [touch locationInView:touch.view];
+    CGPoint touchLocationGl = [[CCDirector sharedDirector] convertToGL:touchLocation];
     
+    CGRect myRect = self.tuerca.boundingBox;
+    
+    
+    if(!CGRectContainsPoint(myRect, touchLocationGl)) {
+        
+        [self.cuentaAtrasSegundos setString:[NSString stringWithFormat:@""]];
+        
+        
         if (_tiempoPulsando == 29 || _tiempoPulsando == 30 || _tiempoPulsando == 31) {
             
             NSLog(@"acertaste");
@@ -295,46 +259,130 @@ float timeElapsed = 0;
             [self.tuerca stopAllActions];
             
             [self quitarTuerca];
-        
-    }else if (_tiempoPulsando>= 32){
-        
-        NSLog( @"te pasate");
-       
-        _tiempoPulsando = 0;
-
-        CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
-        
-        if ([currentSound isPlaying]) {
-            [currentSound load:@"atornillar.wav"];
-            currentSound.backgroundMusic = NO;
-            [currentSound stop];
+            [self quitarTaladro];
+            
+            
         }
-        [self.tiempoDesatornillando invalidate];
-        
-        [self quitarTaladro];
-        [self.tuerca stopAllActions];
-        [self moverTuercaPorEquibocarse];
-
-
-    }else if (_tiempoPulsando <= 28){
-        
-        NSLog(@"te quedaste corto");
-        
-        _tiempoPulsando = 0;
-
-        CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
-        
-        if ([currentSound isPlaying]) {
-            [currentSound load:@"atornillar.wav"];
-            currentSound.backgroundMusic = NO;
-            [currentSound stop];
+        else if (_tiempoPulsando>= 32){
+            
+            NSLog( @"te pasate");
+            
+            _tiempoPulsando = 0;
+            
+            [self.cuentaAtrasMilisegundos setString:[NSString stringWithFormat:@"te pasaste"]];
+            
+            CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
+            
+            if ([currentSound isPlaying]) {
+                [currentSound load:@"atornillar.wav"];
+                currentSound.backgroundMusic = NO;
+                [currentSound stop];
+            }
+            [self.tiempoDesatornillando invalidate];
+            
+            [self quitarTaladro];
+            [self.tuerca stopAllActions];
+            [self moverTuercaPorEquibocarse];
+            
+            
+        }else if (_tiempoPulsando <= 28){
+            
+            NSLog(@"te quedaste corto");
+            
+            _tiempoPulsando = 0;
+            [self.cuentaAtrasMilisegundos setString:[NSString stringWithFormat:@"te quedaste corto"]];
+            
+            CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
+            
+            if ([currentSound isPlaying]) {
+                [currentSound load:@"atornillar.wav"];
+                currentSound.backgroundMusic = NO;
+                [currentSound stop];
+            }
+            [self.tiempoDesatornillando invalidate];
+            
+            [self quitarTaladro];
+            [self.tuerca stopAllActions];
+            [self moverTuercaPorEquibocarse];
+            
         }
-        [self.tiempoDesatornillando invalidate];
+    }
+    
+}
 
-        [self quitarTaladro];
-        [self.tuerca stopAllActions];
-        [self moverTuercaPorEquibocarse];
-
+-(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch * touch = [touches anyObject];
+    CGPoint touchLocation = [touch locationInView:touch.view];
+    CGPoint touchLocationGl = [[CCDirector sharedDirector] convertToGL:touchLocation];
+    
+    CGRect myRect = self.tuerca.boundingBox;
+    
+    
+    if(CGRectContainsPoint(myRect, touchLocationGl)) {
+        
+        [self.cuentaAtrasSegundos setString:[NSString stringWithFormat:@""]];
+        
+        if (_tiempoPulsando == 29 || _tiempoPulsando == 30 || _tiempoPulsando == 31) {
+            
+            NSLog(@"acertaste");
+            
+            CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
+            
+            if ([currentSound isPlaying]) {
+                [currentSound load:@"atornillar.wav"];
+                currentSound.backgroundMusic = NO;
+                [currentSound stop];
+            }
+            
+            [self.tiempoDesatornillando invalidate];
+            [self.tuerca stopAllActions];
+            
+            [self quitarTuerca];
+            
+        }else if (_tiempoPulsando>= 32){
+            
+            NSLog( @"te pasate");
+            
+            _tiempoPulsando = 0;
+            [self.cuentaAtrasMilisegundos setString:[NSString stringWithFormat:@"te pasaste"]];
+            
+            
+            CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
+            
+            if ([currentSound isPlaying]) {
+                [currentSound load:@"atornillar.wav"];
+                currentSound.backgroundMusic = NO;
+                [currentSound stop];
+            }
+            [self.tiempoDesatornillando invalidate];
+            
+            [self quitarTaladro];
+            [self.tuerca stopAllActions];
+            [self moverTuercaPorEquibocarse];
+            
+            
+        }else if (_tiempoPulsando <= 28){
+            
+            NSLog(@"te quedaste corto");
+            
+            _tiempoPulsando = 0;
+            [self.cuentaAtrasMilisegundos setString:[NSString stringWithFormat:@"te quedaste corto"]];
+            
+            CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
+            
+            if ([currentSound isPlaying]) {
+                [currentSound load:@"atornillar.wav"];
+                currentSound.backgroundMusic = NO;
+                [currentSound stop];
+            }
+            [self.tiempoDesatornillando invalidate];
+            
+            [self quitarTaladro];
+            [self.tuerca stopAllActions];
+            [self moverTuercaPorEquibocarse];
+            
+        }
     }
     
 }
@@ -343,6 +391,12 @@ float timeElapsed = 0;
 {
     _tiempoPulsando+=1;
     NSLog(@"%d",_tiempoPulsando);
+    
+    
+    self.cuentaAtras -= 1;
+    
+    [self.cuentaAtrasSegundos setString:[NSString stringWithFormat:@"Tiempo: %d",self.cuentaAtras]];
+    
     
 }
 
@@ -373,10 +427,10 @@ float timeElapsed = 0;
     [self.tuerca release];
     [self.rueda release];
     [self.taladro release];
-
+    
     [self.capa1 release];
     [self.capa2 release];
-
+    
     [self.timeMilliseconds release];
     [self.timeMinutes release];
     [self.timeSeconds release];
