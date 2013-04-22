@@ -11,6 +11,7 @@
 		9300AB0B1707547600F81931 /* wheel.png in Resources */ = {isa = PBXBuildFile; fileRef = 9300AB0A1707547600F81931 /* wheel.png */; };
 		9300AB0E170766E300F81931 /* chrono1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9300AB0C170766E300F81931 /* chrono1.png */; };
 		93036D56170CAEE400D729D2 /* atornillar.wav in Resources */ = {isa = PBXBuildFile; fileRef = 93036D55170CAEE400D729D2 /* atornillar.wav */; };
+		93094B0D1725AC8B003A5899 /* CCNode+SFGestureRecognizers.m in Sources */ = {isa = PBXBuildFile; fileRef = 93094B0C1725AC8B003A5899 /* CCNode+SFGestureRecognizers.m */; };
 		93298B99170F0EF7004388C1 /* drill.png in Resources */ = {isa = PBXBuildFile; fileRef = 93298B98170F0EF7004388C1 /* drill.png */; };
 		933490F616F90C2100489EE8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 933490F516F90C2100489EE8 /* QuartzCore.framework */; };
 		933490F816F90C2100489EE8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 933490F716F90C2100489EE8 /* OpenGLES.framework */; };
@@ -148,6 +149,8 @@
 		9300AB0A1707547600F81931 /* wheel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wheel.png; sourceTree = "<group>"; };
 		9300AB0C170766E300F81931 /* chrono1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chrono1.png; sourceTree = "<group>"; };
 		93036D55170CAEE400D729D2 /* atornillar.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = atornillar.wav; sourceTree = "<group>"; };
+		93094B0B1725AC8B003A5899 /* CCNode+SFGestureRecognizers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+SFGestureRecognizers.h"; sourceTree = "<group>"; };
+		93094B0C1725AC8B003A5899 /* CCNode+SFGestureRecognizers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+SFGestureRecognizers.m"; sourceTree = "<group>"; };
 		93298B98170F0EF7004388C1 /* drill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drill.png; sourceTree = "<group>"; };
 		933490F216F90C2100489EE8 /* Cambio de ruedas!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cambio de ruedas!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		933490F516F90C2100489EE8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -447,6 +450,8 @@
 		933490E916F90C2100489EE8 = {
 			isa = PBXGroup;
 			children = (
+				93094B0B1725AC8B003A5899 /* CCNode+SFGestureRecognizers.h */,
+				93094B0C1725AC8B003A5899 /* CCNode+SFGestureRecognizers.m */,
 				9334910716F90C2100489EE8 /* Cambio de ruedas! */,
 				933490F416F90C2100489EE8 /* Frameworks */,
 				933490F316F90C2100489EE8 /* Products */,
@@ -1049,6 +1054,7 @@
 				9334928116F90C2300489EE8 /* AppDelegate.m in Sources */,
 				9334928416F90C2300489EE8 /* HelloWorldLayer.m in Sources */,
 				9334928716F90C2300489EE8 /* IntroLayer.m in Sources */,
+				93094B0D1725AC8B003A5899 /* CCNode+SFGestureRecognizers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

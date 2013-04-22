@@ -10,7 +10,7 @@
 #import "HelloWorldLayer.h"
 #import "AppDelegate.h"
 #import "CDAudioManager.h"
-
+#import "CCNode+SFGestureRecognizers.h"
 
 int cronoStatus = 0;
 int minutesElapsed = 0;
@@ -58,6 +58,9 @@ float timeElapsed = 0;
         
         _tiempoPulsando = 0;
         
+        tuercaFuera = NO;
+        ponerTuerca = NO;
+        
 	}
 	return self;
 }
@@ -75,7 +78,7 @@ float timeElapsed = 0;
     
     self.rueda = [CCSprite spriteWithFile:@"wheel.png"];
     self.rueda.position = ccp(-100,160);
-    
+    self.rueda.isTouchEnabled = YES;
     
     id move = [CCMoveTo actionWithDuration:1.5 position:ccp(240, 160)];
     id ease = [CCEaseIn actionWithAction:move rate:2.];
@@ -85,7 +88,15 @@ float timeElapsed = 0;
     id actions = [CCSpawn actions:ease,rotate, nil];
     [self.rueda runAction:actions];
     [self.rueda setScale:2.0];
+    
+    UISwipeGestureRecognizer *swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(quitarRueda:)];
+    [self.rueda addGestureRecognizer:swipeGestureRecognizer];
+    swipeGestureRecognizer.direction =  UISwipeGestureRecognizerDirectionLeft;
+    swipeGestureRecognizer.delegate = self;
+    [swipeGestureRecognizer release];
+    
     [self.capa2 addChild:self.rueda z:2];
+    
     
     self.tuerca = [CCSprite spriteWithFile:@"tuerca1.png"];
     _tuerca.position = ccp(-100,160);
@@ -226,6 +237,13 @@ float timeElapsed = 0;
             [currentSound play];
         }
     }
+    
+    if (ponerTuerca == YES) {
+        [self.tuerca stopAllActions];
+        id moveToCenter = [CCMoveTo actionWithDuration:0.2 position:ccp(self.winSize.width/2, self.winSize.height/2)];
+        [self.tuerca runAction:moveToCenter];
+        ponerTuerca = NO;
+    }
 }
 
 -(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -238,7 +256,7 @@ float timeElapsed = 0;
     CGRect myRect = self.tuerca.boundingBox;
     
     
-    if(!CGRectContainsPoint(myRect, touchLocationGl)) {
+    if(CGRectContainsPoint(myRect, touchLocationGl)) {
         
         [self.cuentaAtrasSegundos setString:[NSString stringWithFormat:@""]];
         
@@ -246,6 +264,8 @@ float timeElapsed = 0;
         if (_tiempoPulsando == 29 || _tiempoPulsando == 30 || _tiempoPulsando == 31) {
             
             NSLog(@"acertaste");
+            
+            tuercaFuera = YES;
             
             CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
             
@@ -260,7 +280,6 @@ float timeElapsed = 0;
             
             [self quitarTuerca];
             [self quitarTaladro];
-            
             
         }
         else if (_tiempoPulsando>= 32){
@@ -327,6 +346,8 @@ float timeElapsed = 0;
             
             NSLog(@"acertaste");
             
+            tuercaFuera = YES;
+            
             CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
             
             if ([currentSound isPlaying]) {
@@ -339,6 +360,7 @@ float timeElapsed = 0;
             [self.tuerca stopAllActions];
             
             [self quitarTuerca];
+            [self quitarTaladro];
             
         }else if (_tiempoPulsando>= 32){
             
@@ -387,6 +409,28 @@ float timeElapsed = 0;
     
 }
 
+//- (void)handlePinchFrom:(UISwipeGestureRecognizer *)recognizer {
+//
+//    NSLog(@"nooooo");
+//
+//    if ([recognizer state] == UISwipeGestureRecognizerDirectionLeft) {
+//
+//        if (_tiempoPulsando == 29 || _tiempoPulsando == 30 || _tiempoPulsando == 31) {
+//
+//            NSLog(@"nooooo");
+//
+//        id move = [CCMoveTo actionWithDuration:1.5 position:ccp(-100, 160)];
+//        id ease = [CCEaseIn actionWithAction:move rate:2.];
+//        id rotate = [CCRotateTo actionWithDuration:1.5 angle:800.];
+//
+//
+//        id actions = [CCSpawn actions:ease,rotate, nil];
+//        [self.rueda runAction:actions];
+//        }
+//    }
+//
+//}
+
 -(void)contadorTiempoDesatornillando
 {
     _tiempoPulsando+=1;
@@ -418,6 +462,29 @@ float timeElapsed = 0;
 {
     id moveTaladroFuera = [CCMoveTo actionWithDuration:0.08 position:ccp(410, 100)];
     [self.taladro runAction:moveTaladroFuera];
+}
+
+-(void) quitarRueda:(UISwipeGestureRecognizer *) sender {
+    
+    if (tuercaFuera == YES) {
+        
+        [self.rueda stopAllActions];
+        id move = [CCMoveTo actionWithDuration:0.5 position:ccp(-150, 160)];
+        id ease = [CCEaseIn actionWithAction:move rate:2.];
+        id rotate = [CCRotateTo actionWithDuration:0.5 angle:800.];
+        
+        id actions = [CCSpawn actions:ease,rotate, nil];
+        
+        id move1 = [CCMoveTo actionWithDuration:0.5 position:ccp(240, 160)];
+        id rotate1 = [CCRotateTo actionWithDuration:0.5 angle:800.];
+        
+        id actions1 = [CCSpawn actions:move1,rotate1, nil];
+        
+        id sequence = [CCSequence actions:actions,actions1, nil];
+        [self.rueda runAction:sequence];
+        tuercaFuera =NO;
+        ponerTuerca = YES;
+    }
 }
 
 - (void) dealloc

@@ -5,13 +5,14 @@
 //  Created by iAcisclo on 19/03/13.
 //  Copyright __MyCompanyName__ 2013. All rights reserved.
 //
-
-
 #import <GameKit/GameKit.h>
 #import "cocos2d.h"
 
-@interface HelloWorldLayer : CCLayer
+@interface HelloWorldLayer : CCLayer<CCTargetedTouchDelegate,UIGestureRecognizerDelegate>
 {
+    
+    BOOL tuercaFuera;
+    BOOL ponerTuerca;
     
 }
 
