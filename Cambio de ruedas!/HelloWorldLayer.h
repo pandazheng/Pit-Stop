@@ -7,6 +7,7 @@
 //
 #import <GameKit/GameKit.h>
 #import "cocos2d.h"
+#import "ABGameKitHelper.h"
 
 @interface HelloWorldLayer : CCLayer<CCTargetedTouchDelegate,UIGestureRecognizerDelegate>
 {

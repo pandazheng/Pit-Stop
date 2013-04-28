@@ -55,6 +55,7 @@ float timeElapsed = 0;
         
         [self contruirCronoGeneral];
         [self contruirCronoToques];
+        [self conectarGameCenter];
         
         _tiempoPulsando = 0;
         
@@ -64,6 +65,14 @@ float timeElapsed = 0;
         contadorFin = 0;
 	}
 	return self;
+}
+
+
+- (void)conectarGameCenter
+{
+    
+    [[ABGameKitHelper sharedClass]authenticatePlayer];    
+
 }
 
 -(void)construirFondo
@@ -402,7 +411,12 @@ float timeElapsed = 0;
             [self quitarTuerca];
             [self quitarTaladro];
             if (contadorFin == 1) {
-                NSLog(@"finalizado");}
+                NSLog(@"finalizado");
+                [self.timer invalidate];
+
+                [self mostrarClasificacion];
+                
+            }
             
         }else if (_tiempoPulsando>= 32){
             
@@ -534,6 +548,13 @@ float timeElapsed = 0;
         Aux = YES;
         contadorFin +=1;
     }
+}
+
+-(void)mostrarClasificacion{
+    
+    [[ABGameKitHelper sharedClass] reportScore:self.timer forLeaderboard:@"TiempoDeJuego"];
+    [[ABGameKitHelper sharedClass] showLeaderboard:@"TiempoDeJuego"];
+
 }
 
 - (void) dealloc

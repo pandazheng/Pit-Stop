@@ -10,6 +10,7 @@
 
 #import "AppDelegate.h"
 #import "IntroLayer.h"
+#import "ABGameKitHelper.h"
 
 @implementation AppController
 
@@ -86,8 +87,14 @@
 	
 	// make main window visible
 	[window_ makeKeyAndVisible];
+    
+    [[ABGameKitHelper sharedClass]authenticatePlayer];
+
+    
 	
 	return YES;
+    
+    
 }
 
 // Supported orientations: Landscape. Customize it for your own needs
