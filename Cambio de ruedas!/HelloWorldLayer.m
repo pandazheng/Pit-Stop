@@ -58,9 +58,10 @@ float timeElapsed = 0;
         
         _tiempoPulsando = 0;
         
-        tuercaFuera = NO;
+        cambiarRueda = NO;
         ponerTuerca = NO;
-        
+        Aux = NO;
+        contadorFin = 0;
 	}
 	return self;
 }
@@ -89,11 +90,12 @@ float timeElapsed = 0;
     [self.rueda runAction:actions];
     [self.rueda setScale:2.0];
     
-    UISwipeGestureRecognizer *swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(quitarRueda:)];
-    [self.rueda addGestureRecognizer:swipeGestureRecognizer];
-    swipeGestureRecognizer.direction =  UISwipeGestureRecognizerDirectionLeft;
-    swipeGestureRecognizer.delegate = self;
-    [swipeGestureRecognizer release];
+    self.swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(quitarRueda:)];
+    [self.rueda addGestureRecognizer:self.swipeGestureRecognizer];
+    self.swipeGestureRecognizer.direction =  UISwipeGestureRecognizerDirectionLeft;
+    self.swipeGestureRecognizer.delegate = self;
+    [self.swipeGestureRecognizer release];
+    
     
     [self.capa2 addChild:self.rueda z:2];
     
@@ -109,7 +111,7 @@ float timeElapsed = 0;
     
     id actions1 = [CCSpawn actions:ease1,rotate1, nil];
     [_tuerca runAction:actions1];
-    [_tuerca setScale:3.0];
+    [_tuerca setScale:2.0];
     [self.capa2 addChild:_tuerca z:3];
     
 }
@@ -214,19 +216,24 @@ float timeElapsed = 0;
     if(CGRectContainsPoint(myRect, touchLocationGl)) {
         
         NSLog(@"tocas la tuerca");
+        
         self.tiempoDesatornillando = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(contadorTiempoDesatornillando) userInfo:nil repeats:YES];
+        
+        //contador cuando pulsas la tuerca
         self.cuentaAtras = 30;
         [self.cuentaAtrasMilisegundos setString:[NSString stringWithFormat:@""]];
         
+        //giramos la tuerca cuando tocamos
         id rotate1 = [CCRotateTo actionWithDuration:3.5 angle:80000.];
         id action = [CCRepeatForever actionWithAction:rotate1];
         [_tuerca runAction:action];
         
+        //ponemos el taladro cuando tocamos
         id moverTaladroATuerca = [CCMoveTo actionWithDuration:0.08 position:ccp(305,112)];
         [self.taladro runAction:moverTaladroATuerca];
         
+        //recproducimos el sonido de desatornillar
         CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
-        
         if ([currentSound isPlaying]) {
             [currentSound load:@"atornillar.wav"];
             currentSound.backgroundMusic = NO;
@@ -238,6 +245,7 @@ float timeElapsed = 0;
         }
     }
     
+    //ponemos la tuerca si esta fuera
     if (ponerTuerca == YES) {
         [self.tuerca stopAllActions];
         id moveToCenter = [CCMoveTo actionWithDuration:0.2 position:ccp(self.winSize.width/2, self.winSize.height/2)];
@@ -256,75 +264,107 @@ float timeElapsed = 0;
     CGRect myRect = self.tuerca.boundingBox;
     
     
-    if(CGRectContainsPoint(myRect, touchLocationGl)) {
+    if(!CGRectContainsPoint(myRect, touchLocationGl)) {
         
-        [self.cuentaAtrasSegundos setString:[NSString stringWithFormat:@""]];
+        NSLog( @"moviste");
         
+        [self.tiempoDesatornillando invalidate];
+        [self quitarTaladro];
+        [self.tuerca stopAllActions];
         
-        if (_tiempoPulsando == 29 || _tiempoPulsando == 30 || _tiempoPulsando == 31) {
-            
-            NSLog(@"acertaste");
-            
-            tuercaFuera = YES;
-            
-            CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
-            
-            if ([currentSound isPlaying]) {
-                [currentSound load:@"atornillar.wav"];
-                currentSound.backgroundMusic = NO;
-                [currentSound stop];
-            }
-            
-            [self.tiempoDesatornillando invalidate];
-            [self.tuerca stopAllActions];
-            
-            [self quitarTuerca];
-            [self quitarTaladro];
-            
-        }
-        else if (_tiempoPulsando>= 32){
-            
-            NSLog( @"te pasate");
-            
-            _tiempoPulsando = 0;
-            
-            [self.cuentaAtrasMilisegundos setString:[NSString stringWithFormat:@"te pasaste"]];
-            
-            CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
-            
-            if ([currentSound isPlaying]) {
-                [currentSound load:@"atornillar.wav"];
-                currentSound.backgroundMusic = NO;
-                [currentSound stop];
-            }
-            [self.tiempoDesatornillando invalidate];
-            
-            [self quitarTaladro];
-            [self.tuerca stopAllActions];
+        if (ponerTuerca == YES) {
             [self moverTuercaPorEquibocarse];
-            
-            
-        }else if (_tiempoPulsando <= 28){
-            
-            NSLog(@"te quedaste corto");
-            
-            _tiempoPulsando = 0;
-            [self.cuentaAtrasMilisegundos setString:[NSString stringWithFormat:@"te quedaste corto"]];
-            
-            CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
-            
-            if ([currentSound isPlaying]) {
-                [currentSound load:@"atornillar.wav"];
-                currentSound.backgroundMusic = NO;
-                [currentSound stop];
-            }
-            [self.tiempoDesatornillando invalidate];
-            
-            [self quitarTaladro];
-            [self.tuerca stopAllActions];
-            [self moverTuercaPorEquibocarse];
-            
         }
+        self.cuentaAtras = 30;
+        _tiempoPulsando = 0;
+        
+        [self.cuentaAtrasMilisegundos setString:[NSString stringWithFormat:@"moviste"]];
+        
+        
+        CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
+        if ([currentSound isPlaying]) {
+            [currentSound load:@"atornillar.wav"];
+            currentSound.backgroundMusic = NO;
+            [currentSound stop];
+        }
+        
+        
+        
+        
+        //        [self.cuentaAtrasSegundos setString:[NSString stringWithFormat:@""]];
+        //
+        //
+        //        if (_tiempoPulsando == 29 || _tiempoPulsando == 30 || _tiempoPulsando == 31) {
+        //
+        //            NSLog(@"acertaste moviendo");
+        //
+        ////            cambiarRueda = YES;
+        ////
+        ////            CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
+        ////
+        ////            if ([currentSound isPlaying]) {
+        ////                [currentSound load:@"atornillar.wav"];
+        ////                currentSound.backgroundMusic = NO;
+        ////                [currentSound stop];
+        ////            }
+        ////
+        ////            [self.tiempoDesatornillando invalidate];
+        ////            [self.tuerca stopAllActions];
+        ////
+        ////            if (ponerTuerca == YES) {
+        ////            [self quitarTuerca];
+        ////            }
+        ////
+        ////            [self quitarTaladro];
+        //
+        //        }
+        //        else if (_tiempoPulsando>= 32){
+        //
+        //            NSLog( @"te pasate");
+        //
+        //            _tiempoPulsando = 0;
+        //
+        //            [self.cuentaAtrasMilisegundos setString:[NSString stringWithFormat:@"te pasaste"]];
+        //
+        //            CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
+        //
+        //            if ([currentSound isPlaying]) {
+        //                [currentSound load:@"atornillar.wav"];
+        //                currentSound.backgroundMusic = NO;
+        //                [currentSound stop];
+        //            }
+        //            [self.tiempoDesatornillando invalidate];
+        //
+        //            [self quitarTaladro];
+        //            [self.tuerca stopAllActions];
+        //            [self moverTuercaPorEquibocarse];
+        //
+        //
+        //        }else if (_tiempoPulsando <= 28){
+        //
+        //            NSLog(@"te quedaste corto");
+        //
+        //            _tiempoPulsando = 0;
+        //            [self.cuentaAtrasMilisegundos setString:[NSString stringWithFormat:@"te quedaste corto"]];
+        //
+        //            CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
+        //
+        //            if ([currentSound isPlaying]) {
+        //                [currentSound load:@"atornillar.wav"];
+        //                currentSound.backgroundMusic = NO;
+        //                [currentSound stop];
+        //            }
+        //            [self.tiempoDesatornillando invalidate];
+        //
+        //            [self quitarTaladro];
+        //            [self.tuerca stopAllActions];
+        //            [self moverTuercaPorEquibocarse];
+        //
+        //        }
+    }
+    if (Aux == YES) {
+        ponerTuerca = YES;
+        Aux = NO;
     }
     
 }
@@ -346,7 +386,7 @@ float timeElapsed = 0;
             
             NSLog(@"acertaste");
             
-            tuercaFuera = YES;
+            cambiarRueda = YES;
             
             CDLongAudioSource* currentSound = [[CDAudioManager sharedManager] audioSourceForChannel:kASC_Right];
             
@@ -361,10 +401,16 @@ float timeElapsed = 0;
             
             [self quitarTuerca];
             [self quitarTaladro];
+            if (contadorFin == 1) {
+                NSLog(@"finalizado");}
             
         }else if (_tiempoPulsando>= 32){
             
             NSLog( @"te pasate");
+            
+            [self.tiempoDesatornillando invalidate];
+            
+            self.cuentaAtras = 30;
             
             _tiempoPulsando = 0;
             [self.cuentaAtrasMilisegundos setString:[NSString stringWithFormat:@"te pasaste"]];
@@ -377,7 +423,6 @@ float timeElapsed = 0;
                 currentSound.backgroundMusic = NO;
                 [currentSound stop];
             }
-            [self.tiempoDesatornillando invalidate];
             
             [self quitarTaladro];
             [self.tuerca stopAllActions];
@@ -387,6 +432,10 @@ float timeElapsed = 0;
         }else if (_tiempoPulsando <= 28){
             
             NSLog(@"te quedaste corto");
+            
+            [self.tiempoDesatornillando invalidate];
+            
+            self.cuentaAtras = 30;
             
             _tiempoPulsando = 0;
             [self.cuentaAtrasMilisegundos setString:[NSString stringWithFormat:@"te quedaste corto"]];
@@ -398,8 +447,6 @@ float timeElapsed = 0;
                 currentSound.backgroundMusic = NO;
                 [currentSound stop];
             }
-            [self.tiempoDesatornillando invalidate];
-            
             [self quitarTaladro];
             [self.tuerca stopAllActions];
             [self moverTuercaPorEquibocarse];
@@ -436,9 +483,7 @@ float timeElapsed = 0;
     _tiempoPulsando+=1;
     NSLog(@"%d",_tiempoPulsando);
     
-    
     self.cuentaAtras -= 1;
-    
     [self.cuentaAtrasSegundos setString:[NSString stringWithFormat:@"Tiempo: %d",self.cuentaAtras]];
     
     
@@ -448,6 +493,7 @@ float timeElapsed = 0;
 {
     id move1 = [CCMoveTo actionWithDuration:0.2 position:ccp(580, 0)];
     [self.tuerca runAction:move1];
+    
 }
 
 -(void)moverTuercaPorEquibocarse
@@ -466,7 +512,8 @@ float timeElapsed = 0;
 
 -(void) quitarRueda:(UISwipeGestureRecognizer *) sender {
     
-    if (tuercaFuera == YES) {
+    
+    if (cambiarRueda == YES) {
         
         [self.rueda stopAllActions];
         id move = [CCMoveTo actionWithDuration:0.5 position:ccp(-150, 160)];
@@ -482,8 +529,10 @@ float timeElapsed = 0;
         
         id sequence = [CCSequence actions:actions,actions1, nil];
         [self.rueda runAction:sequence];
-        tuercaFuera =NO;
+        cambiarRueda =NO;
         ponerTuerca = YES;
+        Aux = YES;
+        contadorFin +=1;
     }
 }
 

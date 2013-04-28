@@ -11,8 +11,10 @@
 @interface HelloWorldLayer : CCLayer<CCTargetedTouchDelegate,UIGestureRecognizerDelegate>
 {
     
-    BOOL tuercaFuera;
+    BOOL cambiarRueda;
     BOOL ponerTuerca;
+    BOOL Aux;
+    int contadorFin;
     
 }
 
@@ -44,6 +46,8 @@
 @property (retain,nonatomic) CCLabelTTF *cuentaAtrasMilisegundos;
 @property int cuentaAtras;
 
+//Gesture Rueda
+@property (nonatomic,retain)UISwipeGestureRecognizer *swipeGestureRecognizer;
 
 
 @end
