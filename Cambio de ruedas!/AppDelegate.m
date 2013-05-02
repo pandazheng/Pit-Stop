@@ -90,7 +90,7 @@
     
     [[ABGameKitHelper sharedClass]authenticatePlayer];
 
-    
+
 	
 	return YES;
     

@@ -12,10 +12,11 @@
 		9300AB0E170766E300F81931 /* chrono1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9300AB0C170766E300F81931 /* chrono1.png */; };
 		93036D56170CAEE400D729D2 /* atornillar.wav in Resources */ = {isa = PBXBuildFile; fileRef = 93036D55170CAEE400D729D2 /* atornillar.wav */; };
 		93094B0D1725AC8B003A5899 /* CCNode+SFGestureRecognizers.m in Sources */ = {isa = PBXBuildFile; fileRef = 93094B0C1725AC8B003A5899 /* CCNode+SFGestureRecognizers.m */; };
-		9310666D172D4403008261F9 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9310666C172D4403008261F9 /* Default.png */; };
 		93106672172D4529008261F9 /* ABGameKitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9310666F172D4529008261F9 /* ABGameKitHelper.m */; };
 		93106673172D4529008261F9 /* NSData+AES256.m in Sources */ = {isa = PBXBuildFile; fileRef = 93106671172D4529008261F9 /* NSData+AES256.m */; };
 		93298B99170F0EF7004388C1 /* drill.png in Resources */ = {isa = PBXBuildFile; fileRef = 93298B98170F0EF7004388C1 /* drill.png */; };
+		93330D491732C8C3001964F5 /* MyCocos2DClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 93330D461732C8C3001964F5 /* MyCocos2DClass.m */; };
+		93330D4A1732C8C3001964F5 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 93330D481732C8C3001964F5 /* GameOverScene.m */; };
 		933490F616F90C2100489EE8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 933490F516F90C2100489EE8 /* QuartzCore.framework */; };
 		933490F816F90C2100489EE8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 933490F716F90C2100489EE8 /* OpenGLES.framework */; };
 		933490FA16F90C2100489EE8 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 933490F916F90C2100489EE8 /* OpenAL.framework */; };
@@ -156,12 +157,15 @@
 		93094B0C1725AC8B003A5899 /* CCNode+SFGestureRecognizers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+SFGestureRecognizers.m"; sourceTree = "<group>"; };
 		93106668172D43C8008261F9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		9310666A172D43FD008261F9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
-		9310666C172D4403008261F9 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
 		9310666E172D4529008261F9 /* ABGameKitHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABGameKitHelper.h; sourceTree = "<group>"; };
 		9310666F172D4529008261F9 /* ABGameKitHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABGameKitHelper.m; sourceTree = "<group>"; };
 		93106670172D4529008261F9 /* NSData+AES256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AES256.h"; sourceTree = "<group>"; };
 		93106671172D4529008261F9 /* NSData+AES256.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES256.m"; sourceTree = "<group>"; };
 		93298B98170F0EF7004388C1 /* drill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drill.png; sourceTree = "<group>"; };
+		93330D451732C8C3001964F5 /* MyCocos2DClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCocos2DClass.h; sourceTree = "<group>"; };
+		93330D461732C8C3001964F5 /* MyCocos2DClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCocos2DClass.m; sourceTree = "<group>"; };
+		93330D471732C8C3001964F5 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
+		93330D481732C8C3001964F5 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
 		933490F216F90C2100489EE8 /* Cambio de ruedas!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cambio de ruedas!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		933490F516F90C2100489EE8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		933490F716F90C2100489EE8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -418,8 +422,8 @@
 		9334927A16F90C2300489EE8 /* LICENSE_Kazmath.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE_Kazmath.txt; path = libs/LICENSE_Kazmath.txt; sourceTree = "<group>"; };
 		9334927C16F90C2300489EE8 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		9334927D16F90C2300489EE8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		9334927F16F90C2300489EE8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		9334928016F90C2300489EE8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		9334927F16F90C2300489EE8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = "Cambio de ruedas!/AppDelegate.h"; sourceTree = "<group>"; };
+		9334928016F90C2300489EE8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = "Cambio de ruedas!/AppDelegate.m"; sourceTree = "<group>"; };
 		9334928216F90C2300489EE8 /* HelloWorldLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelloWorldLayer.h; sourceTree = "<group>"; };
 		9334928316F90C2300489EE8 /* HelloWorldLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelloWorldLayer.m; sourceTree = "<group>"; };
 		9334928516F90C2300489EE8 /* IntroLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
@@ -477,12 +481,51 @@
 			name = "CCNode+GestureRecognizers";
 			sourceTree = "<group>";
 		};
-		933490E916F90C2100489EE8 = {
+		93330D441732C899001964F5 /* Terceros */ = {
 			isa = PBXGroup;
 			children = (
 				93106674172D45E7008261F9 /* GameCenterHelper */,
 				93106675172D45FF008261F9 /* CCNode+GestureRecognizers */,
-				9334910716F90C2100489EE8 /* Cambio de ruedas! */,
+			);
+			name = Terceros;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		93330D4B1732CB41001964F5 /* Initial Scene */ = {
+			isa = PBXGroup;
+			children = (
+				9334928516F90C2300489EE8 /* IntroLayer.h */,
+				9334928616F90C2300489EE8 /* IntroLayer.m */,
+				93330D451732C8C3001964F5 /* MyCocos2DClass.h */,
+				93330D461732C8C3001964F5 /* MyCocos2DClass.m */,
+			);
+			name = "Initial Scene";
+			sourceTree = "<group>";
+		};
+		93330D4C1732CB59001964F5 /* Final Scene */ = {
+			isa = PBXGroup;
+			children = (
+				93330D471732C8C3001964F5 /* GameOverScene.h */,
+				93330D481732C8C3001964F5 /* GameOverScene.m */,
+			);
+			name = "Final Scene";
+			sourceTree = "<group>";
+		};
+		93330D4D1732CB6E001964F5 /* Loop Game */ = {
+			isa = PBXGroup;
+			children = (
+				9334928216F90C2300489EE8 /* HelloWorldLayer.h */,
+				9334928316F90C2300489EE8 /* HelloWorldLayer.m */,
+			);
+			name = "Loop Game";
+			sourceTree = "<group>";
+		};
+		933490E916F90C2100489EE8 = {
+			isa = PBXGroup;
+			children = (
+				9334927F16F90C2300489EE8 /* AppDelegate.h */,
+				9334928016F90C2300489EE8 /* AppDelegate.m */,
+				9334910716F90C2100489EE8 /* Clases */,
 				933490F416F90C2100489EE8 /* Frameworks */,
 				933490F316F90C2100489EE8 /* Products */,
 			);
@@ -512,26 +555,24 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		9334910716F90C2100489EE8 /* Cambio de ruedas! */ = {
+		9334910716F90C2100489EE8 /* Clases */ = {
 			isa = PBXGroup;
 			children = (
-				9334927F16F90C2300489EE8 /* AppDelegate.h */,
-				9334928016F90C2300489EE8 /* AppDelegate.m */,
-				9334928216F90C2300489EE8 /* HelloWorldLayer.h */,
-				9334928316F90C2300489EE8 /* HelloWorldLayer.m */,
-				9334928516F90C2300489EE8 /* IntroLayer.h */,
-				9334928616F90C2300489EE8 /* IntroLayer.m */,
+				93330D4B1732CB41001964F5 /* Initial Scene */,
+				93330D4D1732CB6E001964F5 /* Loop Game */,
+				93330D4C1732CB59001964F5 /* Final Scene */,
+				93330D441732C899001964F5 /* Terceros */,
 				9334910816F90C2100489EE8 /* Resources */,
 				9334912216F90C2100489EE8 /* libs */,
 				9334927B16F90C2300489EE8 /* Supporting Files */,
 			);
+			name = Clases;
 			path = "Cambio de ruedas!";
 			sourceTree = "<group>";
 		};
 		9334910816F90C2100489EE8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9310666C172D4403008261F9 /* Default.png */,
 				9310666A172D43FD008261F9 /* Default@2x.png */,
 				93106668172D43C8008261F9 /* Default-568h@2x.png */,
 				93298B98170F0EF7004388C1 /* drill.png */,
@@ -973,7 +1014,6 @@
 				937EE8E1170B64AE00BDCBAB /* tuerca1.png in Resources */,
 				93036D56170CAEE400D729D2 /* atornillar.wav in Resources */,
 				93298B99170F0EF7004388C1 /* drill.png in Resources */,
-				9310666D172D4403008261F9 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1091,6 +1131,8 @@
 				93094B0D1725AC8B003A5899 /* CCNode+SFGestureRecognizers.m in Sources */,
 				93106672172D4529008261F9 /* ABGameKitHelper.m in Sources */,
 				93106673172D4529008261F9 /* NSData+AES256.m in Sources */,
+				93330D491732C8C3001964F5 /* MyCocos2DClass.m in Sources */,
+				93330D4A1732C8C3001964F5 /* GameOverScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

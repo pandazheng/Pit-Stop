@@ -66,6 +66,7 @@
 -(void) reportScore:(int)score forLeaderboard:(NSString*)leaderboardName {
     GKScore *scoreReporter = [[[GKScore alloc] initWithCategory:leaderboardName] autorelease];
     scoreReporter.value = score;
+    scoreReporter.context = 0;
     
     [scoreReporter reportScoreWithCompletionHandler:^(NSError *error) {
         if (error != nil){

@@ -7,15 +7,18 @@
 //
 #import <GameKit/GameKit.h>
 #import "cocos2d.h"
-#import "ABGameKitHelper.h"
 
 @interface HelloWorldLayer : CCLayer<CCTargetedTouchDelegate,UIGestureRecognizerDelegate>
 {
     
     BOOL cambiarRueda;
     BOOL ponerTuerca;
-    BOOL Aux;
     int contadorFin;
+    
+    int time;
+    int minutes;
+    int seconds;
+
     
 }
 
@@ -49,6 +52,9 @@
 
 //Gesture Rueda
 @property (nonatomic,retain)UISwipeGestureRecognizer *swipeGestureRecognizer;
+
+//Tiempo GameCenter
+@property     float time_to_send_through_game_center;
 
 
 @end
